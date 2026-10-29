@@ -1,0 +1,37 @@
+interface InventoryItem<T> {
+    id: number;
+    quantity: number;
+    details: T;
+}
+
+type Book = { title: string; author: string };
+type Electronic = { brand: string; model: string };
+type BookItem = InventoryItem<Book>;
+type ElectronicItem = InventoryItem<Electronic>;
+
+
+function addItem<T>(inventory: InventoryItem<T>[], newItem: InventoryItem<T>): InventoryItem<T>[] {
+    return [...inventory, newItem];
+}
+
+
+function findItemById<T>(inventory: InventoryItem<T>[], id: number): InventoryItem<T> | undefined {
+    for (const item of inventory) {
+        if (item.id === id) {
+            return item;
+        }
+    }
+    return undefined;
+}
+
+function getItemDetails(item: InventoryItem<any>): void {
+    if ('title' in item.details) {
+        console.log(`Book: ${item.details.title} by ${item.details.author}`);
+    }
+    else if ('brand' in item.details) {
+        console.log(`Electronic: ${item.details.brand} ${item.details.model}`);
+    } else {
+        console.log("Unknown item type");
+    }
+
+}
